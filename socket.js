@@ -6,6 +6,8 @@ function initIo(server) {
     io.on('connection', function (socket) {
         // 监听客户端过来的消息
         listen(socket);
+
+        console.log('初始化成功');
     });
 }
 
