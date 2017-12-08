@@ -21,6 +21,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(function(request, response, next){
+    response.header("Access-Control-Allow-Origin", "*");
+    response.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Auth-Token");
+    next();
+});
 
 app.use(require('cors')());
 app.use('/', index);
