@@ -4,7 +4,7 @@
 			"name": "metting-app",
 			"script": "bin/www",
 			"node_args": "--harmony",
-			"instances": 6
+			"instances": 1
 		}
 	]
 }
