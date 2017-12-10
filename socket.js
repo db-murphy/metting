@@ -31,7 +31,13 @@ function listen(socket) {
 
     // 收到消息
     socket.on('sendEnterData', function (say) {
+        var date = new Date();
+        // var year = date.getFullYear();
+        // var month = date.getMonth() + 1;
+        // var day = date.getDate();
+
         global.userContentList[say.token].content = say.content;
+        global.userContentList[say.token].date = date.getTime();
         // 将消息列表广播出去
         sendMsgListToAll();
     });

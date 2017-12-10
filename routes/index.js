@@ -1,107 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
-global.userContentList = {};
-global.userData = {
-    "users": [
-        {
-            "name": "黄小龙",
-            "token": "huangxiaolong",
-            "isLogin": false,
-            "content": "待输入..."
-        },
-        {
-            "name": "余夏婷",
-            "token": "yuxiating",
-            "isLogin": false,
-            "content": "待输入..."
-        },
-        {
-            "name": "梅军",
-            "token": "meijun",
-            "isLogin": false,
-            "content": "待输入..."
-        },
-        {
-            "name": "唐利",
-            "token": "tangli",
-            "isLogin": false,
-            "content": "待输入..."
-        },
-        {
-            "name": "吴帅",
-            "token": "wushuai",
-            "isLogin": false,
-            "content": "待输入..."
-        },
-        {
-            "name": "侯洁",
-            "token": "houjie",
-            "isLogin": false,
-            "content": "待输入..."
-        },
-        {
-            "name": "张奇",
-            "token": "zhangqi",
-            "isLogin": false,
-            "content": "待输入..."
-        },
-        {
-            "name": "方荣峰",
-            "token": "fangrongfeng",
-            "isLogin": false,
-            "content": "待输入..."
-        },
-        {
-            "name": "肖明昭",
-            "token": "xiaomingzhao",
-            "isLogin": false,
-            "content": "待输入..."
-        },
-        {
-            "name": "杨再举",
-            "token": "yangzaiju",
-            "isLogin": false,
-            "content": "待输入..."
-        },
-        {
-            "name": "张嵩",
-            "token": "zhangsong",
-            "isLogin": false,
-            "content": "待输入..."
-        },
-        {
-            "name": "代01",
-            "token": "dai01",
-            "isLogin": false,
-            "content": "待输入..."
-        },
-        {
-            "name": "王娜",
-            "token": "wangna",
-            "isLogin": false,
-            "content": "待输入..."
-        },
-        {
-            "name": "黄翠",
-            "token": "huangcui",
-            "isLogin": false,
-            "content": "待输入..."
-        },
-        {
-            "name": "熊莉",
-            "token": "xiongli",
-            "isLogin": false,
-            "content": "待输入..."
-        },
-        {
-            "name": "马思琪",
-            "token": "masiqi",
-            "isLogin": false,
-            "content": "待输入..."
-        }
-    ]
-};
+
+require('../list.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -126,6 +27,18 @@ router.get('/getDataList', function(req, res, next) {
     });
 });
 
+router.post('/getUserContent', function(req, res, next) {
+    var token = req.body.token;
+
+    return res.status(200).json({
+        code: 0,
+        result: {
+            con: global.userContentList[token].content
+        },
+        msg: 'ok'
+    });
+});
+
 router.post('/login', function(req, res) {
 	var red_path = process.cwd();
     var loginName = req.body.userName;
@@ -142,12 +55,6 @@ router.post('/login', function(req, res) {
                 });
             };
             global.userData.users[i].isLogin = true;
-            global.userContentList[global.userData.users[i].token] = {
-                name: global.userData.users[i].name,
-                content: global.userData.users[i].content,
-                jiaban: false
-            };
-
             res.status(200).json({
                 code: 0,
                 result: {
@@ -166,8 +73,25 @@ router.post('/login', function(req, res) {
         },
         msg: '用户不存在'
     });
+});
 
+router.post('/loginout', function(req, res) {
+    var token = req.body.token;
 
+    for(var i = 0; i < global.userData.users.length; i++) {
+        if(global.userData.users[i].token == token) {
+            global.userData.users[i].isLogin == false;
+            break;
+        }
+    };
+
+    return res.status(200).json({
+        code: 0,
+        result: {
+
+        },
+        msg: '退出成功'
+    });
 });
 
 function randomWord(randomFlag, min, max){
