@@ -33,7 +33,8 @@ router.post('/getUserContent', function(req, res, next) {
     return res.status(200).json({
         code: 0,
         result: {
-            con: global.userContentList[token].content
+            con: global.userContentList[token].content,
+            jiaban: global.userContentList[token].jiaban
         },
         msg: 'ok'
     });
